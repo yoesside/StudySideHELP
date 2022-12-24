@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Dashboard</title>
+  <title>View Request</title>
   <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="<?= base_url() ?>assets/images/icons/favicon.ico"/>
   <!--===============================================================================================-->
@@ -60,34 +60,75 @@
 		</div>
 	</nav>
 	<div class="container-fluid bg-info bg-opacity-10 h-100 pb-5">
-		<?php foreach($adm as $rowadm): ?>
-		<div class="row ps-4 pt-5">
-			<div class="col-3 pe-4 position-relative">
-				<div class="position-absolute top-50 start-50 translate-middle" style="z-index:100">
-					<img class="rounded mx-auto d-block w-75" src="<?= base_url() ?>assets/img/user 2.png">
-				</div>
-
-				<div class="card" style="width: 100%;height:350px;">
-					<div class="card-body bg-primary h-50">
-					</div>
-					<div class="card-body h-50 pt-5">
-						<h5 class="card-title text-center mt-4"><?= $rowadm->name; ?></h5>
-						<p class="card-text text-center">Volunteer</p>
-					</div>
-				</div>
-			</div>
-			<div class="col">
-				<div class="card" style="width: 100%;background-color:rgb(7 7 137);">
-					<div class="card-body text-white">
-						<p class="card-title">Email: <?= $rowadm->email; ?></p>
-						<p class="card-text">Phone: <?= $rowadm->phone; ?></p>
-						<p class="card-text">Occupation: <?= $rowadm->occupation; ?></p>
-						<p class="card-text">Date of Birth: <?= $rowadm->birthDate; ?></p>
-					</div>
-				</div>
-			</div>
+		<div class="container px-5 pt-4">
+			<table class="table bg-white table-borderless">
+				<tbody>
+					<?php foreach($request as $requestrw): ?>
+					<tr>
+						<th scope="col" class="table-secondary" style="width:15%">Request ID </th>
+						<td><?= $requestrw->request_id; ?></td>
+					</tr>
+					<tr>
+						<th scope="col" class="table-secondary">School Name</th>
+						<td><?= $requestrw->schoolName; ?></td>
+					</tr>
+					<tr>
+						<th scope="col" class="table-secondary">City</th>
+						<td><?= $requestrw->city; ?></td>
+					</tr>
+					<tr>
+						<th scope="col" class="table-secondary">Description</th>
+						<td><?= $requestrw->description; ?></td>
+					</tr>
+					<tr>
+						<th scope="col" class="table-secondary">Tutorial Date</th>
+						<td><?= $requestrw->date; ?></td>
+					</tr>
+					<tr>
+						<th scope="col" class="table-secondary">Tutorial Time</th>
+						<td><?= $requestrw->time; ?></td>
+					</tr>
+					<tr>
+						<th scope="col" class="table-secondary">Student Level</th>
+						<td><?= $requestrw->studentLevel; ?></td>
+					</tr>
+					<tr>
+						<th scope="col" class="table-secondary">Total Students</th>
+						<td><?= $requestrw->numStudents; ?></td>
+					</tr>
+					<tr>
+						<th scope="col" class="table-secondary">Resource Type</th>
+						<td>
+							<div class="row">
+								<div class="col-3">
+									PC
+								</div>
+								<div class="col-1">
+									: <?= $requestrw->pc; ?>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-3">
+									Mobile Device
+								</div>
+								<div class="col-1">
+									: <?= $requestrw->mobileDevice; ?>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-3">
+									Networking Equipment
+								</div>
+								<div class="col-1">
+									: <?= $requestrw->network; ?>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
 		</div>
-		<?php endforeach; ?>
 	</div>
 
 	<!--bootstrap JS-->
@@ -96,10 +137,6 @@
 	
 	<script src="<?= base_url() ?>assets/vendor/jquery/jquery-3.2.1.min.js"></script>
 	<script src="<?= base_url() ?>assets/js/main.js"></script>
-	<script>
-		const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-		const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-	</script>
 
 </body>
 
