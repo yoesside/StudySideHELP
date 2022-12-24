@@ -75,8 +75,20 @@
 				<tbody>
 					<?php foreach($request as $requestrw): ?>
 					<tr>
-						<td><?= $requestrw->request_id; ?></td>
-						<td><?= $requestrw->status; ?></td>
+						<td>
+							<a href="<?= base_url('dashboard_vltr/request_detail/'.$requestrw->request_id) ?>">
+								<?= $requestrw->request_id; ?>
+							</a>
+						</td>
+						<td>
+							<?php 
+								if ($requestrw->status == 'Pending'){
+									echo 'NEW';
+								}else{
+									echo $requestrw->status;
+								}	
+							?>
+						</td>
 						<td><?= $requestrw->date; ?></th>
 						<td><?= $requestrw->description; ?></td>
 						<td><?= $requestrw->schoolName; ?></td>

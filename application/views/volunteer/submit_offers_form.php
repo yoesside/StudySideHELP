@@ -60,34 +60,41 @@
 		</div>
 	</nav>
 	<div class="container-fluid bg-info bg-opacity-10 h-100 pb-5">
-		<?php foreach($adm as $rowadm): ?>
-		<div class="row ps-4 pt-5">
-			<div class="col-3 pe-4 position-relative">
-				<div class="position-absolute top-50 start-50 translate-middle" style="z-index:100">
-					<img class="rounded mx-auto d-block w-75" src="<?= base_url() ?>assets/img/user 2.png">
+		<?= $this->session->flashdata('pesan'); ?>
+		<div class="container px-5 w-50 pt-3">
+			<form method="post" action="<?= base_url('volunteer/kirim_offer')?>" accept-charset="utf-8">
+				<?php foreach($adm as $rowadm): ?>
+					<input type="text" name="id_volunteer" class="form-control" 
+						value="<?= $rowadm->id_volunteer; ?>" hidden>
+				<?php endforeach; ?>
+				<div class="mb-3">
+					<label class="form-label">Request ID</label>
+					<select class="form-select" id="inputGroupSelect01" name="request_id" required>
+						<option value="">Choose</option>
+						<?php 
+							foreach($request as $rowrequest): 
+							$cekoffer = $this->db->query("SELECT * FROM offer WHERE id_volunteer='".$rowadm->id_volunteer."' AND request_id='".$rowrequest->request_id."'");
+							if ($cekoffer->row() > 0){
+								echo '';
+							}else{
+						?>
+						<option value="<?= $rowrequest->request_id; ?>"><?= $rowrequest->request_id; ?></option>
+						<?php
+							} 
+							endforeach; 
+						?>
+					</select>
 				</div>
-
-				<div class="card" style="width: 100%;height:350px;">
-					<div class="card-body bg-primary h-50">
-					</div>
-					<div class="card-body h-50 pt-5">
-						<h5 class="card-title text-center mt-4"><?= $rowadm->name; ?></h5>
-						<p class="card-text text-center">Volunteer</p>
-					</div>
+				<div class="mb-3">
+					<label class="form-label">Remarks</label>
+					<?= form_error('name', '<div class="text-danger small ml-3 p-1">', '</div>') ?>
+					<textarea class="form-control" name="remarks" aria-label="With textarea" style="height: 100px" required></textarea>
 				</div>
-			</div>
-			<div class="col">
-				<div class="card" style="width: 100%;background-color:rgb(7 7 137);">
-					<div class="card-body text-white">
-						<p class="card-title">Email: <?= $rowadm->email; ?></p>
-						<p class="card-text">Phone: <?= $rowadm->phone; ?></p>
-						<p class="card-text">Occupation: <?= $rowadm->occupation; ?></p>
-						<p class="card-text">Date of Birth: <?= $rowadm->birthDate; ?></p>
-					</div>
+				<div class="d-grid gap-2 col-6 mx-auto">
+					<button type="submit" class="btn btn-primary">Confirm</button>
 				</div>
-			</div>
+			</form>
 		</div>
-		<?php endforeach; ?>
 	</div>
 
 	<!--bootstrap JS-->
@@ -96,10 +103,6 @@
 	
 	<script src="<?= base_url() ?>assets/vendor/jquery/jquery-3.2.1.min.js"></script>
 	<script src="<?= base_url() ?>assets/js/main.js"></script>
-	<script>
-		const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-		const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-	</script>
 
 </body>
 
