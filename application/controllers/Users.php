@@ -64,7 +64,8 @@ class Users extends CI_Controller{
       $this->session->set_flashdata(
         'pesan',
         '<div class="alert alert-success alert-dismissible fade show" role="alert">
-          <strong>Data administrator</strong> berhasil ditambahkan
+          <strong>The new administrator</strong> has added.
+          To return to the main page please click <a href="'.base_url().'" class="stretched-link">Home</a>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>'
       );
@@ -92,7 +93,7 @@ class Users extends CI_Controller{
       $this->session->set_flashdata(
         'pesan',
         '<div class="alert alert-success alert-dismissible fade show" role="alert">
-          Data user berhasil ditambahkan
+          The user has added.
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -154,10 +155,8 @@ class Users extends CI_Controller{
       $this->session->set_flashdata(
         'pesan',
         '<div class="alert alert-success alert-dismissible fade show" role="alert">
-          Data user berhasil diupdate
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+            Your profile has ben updated
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>'
       );
       redirect('dashboard_adm/profile');
@@ -188,71 +187,32 @@ class Users extends CI_Controller{
     redirect('users');
   }
 
-  public function hapus($id){
-    $where = array('id_user' => $id);
-
-    $data['users'] = $this->user_model->edit_data($where, 'users')->result();
-    foreach($data['users'] as $datuser){
-      $levelus = $datuser->level;
-      $idmhs = $datuser->id_mhs;
-      $iddsn = $datuser->id_dosen;
-    }
-
-    $wheremhs = array('id' => $idmhs);
-
-    $wheredosen = array('id_dosen' => $iddsn);
-
-    $datah = array(
-      'status_user' => 'belum'
-    );
-
-    if($levelus == 'mahasiswa'){
-      $this->mahasiswa_model->update_data($wheremhs, $datah, 'mahasiswa');
-    }else if ($levelus == 'dosen'){
-      $this->dosen_model->update_data($wheredosen, $datah, 'dosen');
-    }else{
-      echo'';
-    }
-
-    $this->user_model->hapus_data($where, 'users');
-    $this->session->set_flashdata(
-      'pesan',
-      '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-        Data user berhasil dihapus
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>'
-    );
-    redirect('users');
-  }
-
   public function _rules(){
     $this->form_validation->set_rules('username', 'username', 'required|is_unique[user.username]', [
-      'required' => 'Username wajib diisi!',
-      'is_unique'     => 'Username sudah ada'
+      'required' => 'Username is required!',
+      'is_unique'     => 'Username already exists'
     ]);
     $this->form_validation->set_rules('staffID', 'staffID', 'required|is_unique[administrator.staffID]', [
-      'required' => 'staffID wajib diisi!',
-      'is_unique'     => 'staffID sudah ada'
+      'required' => 'staffID is required!',
+      'is_unique'     => 'staffID already exists'
     ]);
     $this->form_validation->set_rules('schoolID', 'schoolID', 'required', [
-      'required' => 'Nama Sekolah wajib diisi!'
+      'required' => 'School Name is required!'
     ]);
     $this->form_validation->set_rules('password', 'password', 'required', [
-      'required' => 'Password wajib diisi!'
+      'required' => 'Password is required!'
     ]);
     $this->form_validation->set_rules('name', 'name', 'required', [
-      'required' => 'Nama wajib diisi!'
+      'required' => 'Nama is required!'
     ]);
     $this->form_validation->set_rules('phone', 'phone', 'required', [
-      'required' => 'Phone wajib diisi!'
+      'required' => 'Phone number is required!'
     ]);
     $this->form_validation->set_rules('position', 'position', 'required', [
-      'required' => 'Position wajib diisi!'
+      'required' => 'Position is required!'
     ]);
     $this->form_validation->set_rules('email', 'email', 'required', [
-      'required' => 'Email wajib diisi!'
+      'required' => 'Email is required!'
     ]);
   }
 

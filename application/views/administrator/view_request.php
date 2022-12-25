@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Dashboard</title>
+  <title>View Request</title>
   <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="<?= base_url() ?>assets/images/icons/favicon.ico"/>
   <!--===============================================================================================-->
@@ -36,23 +36,23 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-5">
 					<li class="nav-item pe-4">
-						<a class="nav-link text-dark" aria-current="page" href="<?= base_url('dashboard_vltr') ?>">
+						<a class="nav-link text-dark" aria-current="page" href="<?= base_url('dashboard_adm') ?>">
 							<i class="fa fa-home fa-lg text-info" aria-hidden="true"></i> Home
 						</a>
 					</li>
 					<li class="nav-item pe-4">
-						<a class="nav-link text-dark" href="<?= base_url('dashboard_vltr/profile') ?>">
+						<a class="nav-link text-dark" href="<?= base_url('dashboard_adm/profile') ?>">
 							<i class="fa fa-user fa-lg text-info" aria-hidden="true"></i> Profile
 						</a>
 					</li>
 					<li class="nav-item pe-4">
-						<a class="nav-link text-dark" href="<?= base_url('dashboard_vltr/view_request') ?>">
-							<i class="fa fa-file-text fa-lg text-info" aria-hidden="true"></i> View Requests
+						<a class="nav-link text-dark" href="<?= base_url('dashboard_adm/submit_request') ?>">
+							<i class="fa fa-file-text fa-lg text-info" aria-hidden="true"></i> Submit Requests
 						</a>
 					</li>
 					<li class="nav-item pe-4">
-						<a class="nav-link text-dark" href="<?= base_url('dashboard_vltr/submit_offers') ?>">
-							<i class="fa fa-calendar-check-o fa-lg text-info" aria-hidden="true"></i> Submit Offers
+						<a class="nav-link text-dark" href="<?= base_url('dashboard_adm/riview_offers') ?>">
+							<i class="fa fa-calendar-check-o fa-lg text-info" aria-hidden="true"></i> Review Offers
 						</a>
 					</li>
 				</ul>
@@ -60,34 +60,47 @@
 		</div>
 	</nav>
 	<div class="container-fluid bg-info bg-opacity-10 h-100 pb-5">
-		<?php foreach($adm as $rowadm): ?>
-		<div class="row ps-4 pt-5">
-			<div class="col-3 pe-4 position-relative">
-				<div class="position-absolute top-50 start-50 translate-middle" style="z-index:100">
-					<img class="rounded mx-auto d-block w-75" src="<?= base_url() ?>assets/img/user 2.png">
-				</div>
-
-				<div class="card" style="width: 100%;height:350px;">
-					<div class="card-body bg-primary h-50">
-					</div>
-					<div class="card-body h-50 pt-5">
-						<h5 class="card-title text-center mt-4"><?= $rowadm->name; ?></h5>
-						<p class="card-text text-center">Volunteer</p>
-					</div>
-				</div>
-			</div>
-			<div class="col">
-				<div class="card" style="width: 100%;background-color:rgb(7 7 137);">
-					<div class="card-body text-white">
-						<p class="card-title">Email: <?= $rowadm->email; ?></p>
-						<p class="card-text">Phone: <?= $rowadm->phone; ?></p>
-						<p class="card-text">Occupation: <?= $rowadm->occupation; ?></p>
-						<p class="card-text">Date of Birth: <?= $rowadm->birthDate; ?></p>
-					</div>
-				</div>
-			</div>
+		<?= $this->session->flashdata('pesan'); ?>
+		<div class="container px-5 pt-4">
+			<table class="table bg-white">
+				<thead>
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col">Status</th>
+						<th scope="col">School Name</th>
+						<th scope="col">Description</th>
+						<th scope="col">Request Date</th>
+						<th scope="col">City</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach($request as $requestrw): ?>
+					<tr>
+						<td>
+							<a href="<?= base_url('dashboard_adm/offers_detail/'.$requestrw->request_id) ?>">
+								<?= $requestrw->request_id; ?>
+							</a>
+						</td>
+						<td>
+							<?php 
+								if ($requestrw->status == 'Pending' or $requestrw->status == 'Finish'){
+									echo 'NEW';
+								}else if ($requestrw->status == 'Closed') {
+									echo 'Closed';
+								}else{
+									echo $requestrw->status;
+								}	
+							?>
+						</td>
+						<td><?= $requestrw->schoolName; ?></td>
+						<td><?= $requestrw->description; ?></td>
+						<td><?= $requestrw->date; ?></th>
+						<td><?= $requestrw->city; ?></td>
+					</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
 		</div>
-		<?php endforeach; ?>
 	</div>
 
 	<!--bootstrap JS-->
@@ -96,10 +109,6 @@
 	
 	<script src="<?= base_url() ?>assets/vendor/jquery/jquery-3.2.1.min.js"></script>
 	<script src="<?= base_url() ?>assets/js/main.js"></script>
-	<script>
-		const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-		const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-	</script>
 
 </body>
 

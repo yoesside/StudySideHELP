@@ -3,6 +3,7 @@
 class School_model extends CI_Model{
   public $table = 'schools';
   public $table1 = 'request';
+  public $table2 = 'offer';
   public $schoolID    = 'schoolID';
   public $order = 'DESC';
 
@@ -35,6 +36,20 @@ class School_model extends CI_Model{
   public function update_data($where, $data, $table){
     $this->db->where($where);
     $this->db->update($table, $data);
+  }
+  public function update_statusOffer($where, $data, $table2){
+    $this->db->where($where);
+    $this->db->update($table2, $data);
+  }
+
+  public function update_statusRequest($where_req, $data_req, $table1){
+    $this->db->where($where_req);
+    $this->db->update($table1, $data_req);
+  }
+
+  public function closed_offer($where, $data, $table1){
+    $this->db->where($where);
+    $this->db->update($table1, $data);
   }
 
   public function hapus_data($where, $table){

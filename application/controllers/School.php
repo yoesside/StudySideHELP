@@ -60,7 +60,8 @@ class School extends CI_Controller{
       $this->session->set_flashdata(
         'pesan',
         '<div class="alert alert-success alert-dismissible fade show" role="alert">
-          Data sekolah berhasil ditambahkan
+          The School Data successfully added
+          To return to the main page please click <a href="'.base_url().'" class="stretched-link">Home</a>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -98,13 +99,67 @@ class School extends CI_Controller{
       $this->session->set_flashdata(
         'pesan',
         '<div class="alert alert-success alert-dismissible fade show" role="alert">
-          Data Request berhasil dikirim
+          The Offer Request successfully sent
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>'
       );
       redirect('dashboard_adm/submit_request');
+  }
+
+  public function accepted_offer(){
+    
+      $offer_id = $this->input->post('offer_id');
+      $request_id = $this->input->post('request_id');
+
+      $data = array(
+        'offerStatus' => 'Finish',
+      );
+      
+      $data_req = array(
+        'status' => 'Finish',
+      );
+  
+      $where = array(
+        'offer_id' => $offer_id
+      );
+
+      $where_req = array(
+        'request_id' => $request_id
+      );
+
+      $this->school_model->update_statusOffer($where, $data, 'offer');
+      $this->school_model->update_statusRequest($where_req, $data_req, 'request');
+      $this->session->set_flashdata(
+        'pesan',
+        '<div class="alert alert-success alert-dismissible fade show" role="alert">
+          The offer has accepted.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>'
+      );
+      redirect('dashboard_adm/offer_approval/'.$offer_id);
+  }
+  public function closed_offer(){
+      $request_id = $this->input->post('request_id');
+
+      $data = array(
+        'status' => 'Closed',
+      );
+  
+      $where = array(
+        'request_id' => $request_id
+      );
+
+      $this->school_model->closed_offer($where, $data, 'request');
+      $this->session->set_flashdata(
+        'pesan',
+        '<div class="alert alert-success alert-dismissible fade show" role="alert">
+          The offer successfully closed
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>'
+      );
+      redirect('dashboard_adm/riview_offers');
   }
 
   public function _rules(){
@@ -134,51 +189,6 @@ class School extends CI_Controller{
     $this->load->view('templates_administrator/sidebar');
     $this->load->view('administrator/kelas_update',$data);
     $this->load->view('templates_administrator/footer');
-  }
-
-  public function update_aksi(){
-    $id_kelas = $this->input->post('id_kelas');
-    $nama_kelas = $this->input->post('nama_kelas');
-
-    $data = array(
-      'nama_kelas' => $nama_kelas,
-    );
-
-    $where = array(
-      'id_kelas' => $id_kelas
-    );
-
-    $datakl['ambil'] = $this->school_model->ambil_id_kelas($id_kelas);
-    foreach($datakl['ambil'] as $dtnm){
-      $nama_kelasck = $dtnm->nama_kelas;
-    }
-    if($nama_kelas != $nama_kelasck) {
-        $is_unique =  '|is_unique[kelas.nama_kelas]';
-    } else {
-        $is_unique =  '';
-    }
-   
-
-    $this->form_validation->set_rules('nama_kelas', 'nama_kelas', 'required'.$is_unique, [
-      'required'  => 'Nama Kelas wajib diisi!',
-      'is_unique' => 'Nama Kelas "<b>'.$nama_kelas.'</b>" sudah ada'
-    ]);
-
-    if($this->form_validation->run() == false){
-			$this-> update($id_kelas);
-		} else {		
-      $this->school_model->update_data($where, $data, 'kelas');
-      $this->session->set_flashdata(
-        'pesan',
-        '<div class="alert alert-success alert-dismissible fade show" role="alert">
-          Data mata kuliah berhasil diupdate
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>'
-      );
-      redirect('kelas');
-    }
   }
 
   public function delete($id){

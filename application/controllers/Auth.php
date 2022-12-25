@@ -54,9 +54,8 @@ class Auth extends CI_Controller{
           $this->session->set_flashdata(
             'pesan',
             '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                Username atau password salah
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                Username or password not valid
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
               </button>
             </div>'
           );
@@ -66,12 +65,11 @@ class Auth extends CI_Controller{
       else{
         $this->session->set_flashdata(
           'pesan',
-          '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-              Username atau password salah
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>'
+            '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Username or password not valid
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+              </button>
+            </div>'
         );
         redirect('auth');
       }

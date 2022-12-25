@@ -36,65 +36,81 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-5">
 					<li class="nav-item pe-4">
-						<a class="nav-link text-dark" aria-current="page" href="<?= base_url('dashboard_vltr') ?>">
+						<a class="nav-link text-dark" aria-current="page" href="<?= base_url('dashboard_adm') ?>">
 							<i class="fa fa-home fa-lg text-info" aria-hidden="true"></i> Home
 						</a>
 					</li>
 					<li class="nav-item pe-4">
-						<a class="nav-link text-dark" href="<?= base_url('dashboard_vltr/profile') ?>">
+						<a class="nav-link text-dark" href="<?= base_url('dashboard_adm/profile') ?>">
 							<i class="fa fa-user fa-lg text-info" aria-hidden="true"></i> Profile
 						</a>
 					</li>
 					<li class="nav-item pe-4">
-						<a class="nav-link text-dark" href="<?= base_url('dashboard_vltr/view_request') ?>">
-							<i class="fa fa-file-text fa-lg text-info" aria-hidden="true"></i> View Requests
+						<a class="nav-link text-dark" href="<?= base_url('dashboard_adm/submit_request') ?>">
+							<i class="fa fa-file-text fa-lg text-info" aria-hidden="true"></i> Submit Requests
 						</a>
 					</li>
 					<li class="nav-item pe-4">
-						<a class="nav-link text-dark" href="<?= base_url('dashboard_vltr/submit_offers') ?>">
-							<i class="fa fa-calendar-check-o fa-lg text-info" aria-hidden="true"></i> Submit Offers
+						<a class="nav-link text-dark" href="<?= base_url('dashboard_adm/riview_offers') ?>">
+							<i class="fa fa-calendar-check-o fa-lg text-info" aria-hidden="true"></i> Review Offers
 						</a>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</nav>
-	<div class="container-fluid bg-info bg-opacity-10 h-100 pb-5">
+	<div class="container-fluid bg-info bg-opacity-10 pb-5" style="min-height:83%">
 		<div class="container px-5 pt-4">
-			<table class="table bg-white">
-				<thead>
-					<tr>
-						<th scope="col">ID</th>
-						<th scope="col">Status</th>
-						<th scope="col">Request Date</th>
-						<th scope="col">Description</th>
-						<th scope="col">School Name</th>
-						<th scope="col">City</th>
-					</tr>
-				</thead>
+			<?= $this->session->flashdata('pesan'); ?>
+			<table class="table bg-white table-borderless">
 				<tbody>
-					<?php foreach($request as $requestrw): ?>
+					<?php foreach($offers as $offerrw): ?>
 					<tr>
+						<th scope="col" class="table-secondary" style="width:15%">Offer Date </th>
+						<td><?= $offerrw->offerDate; ?></td>
+					</tr>
+					<tr>
+						<th scope="col" class="table-secondary">Name</th>
+						<td><?= $offerrw->name; ?></td>
+					</tr>
+					<tr>
+						<th scope="col" class="table-secondary">Age</th>
 						<td>
-							<a href="<?= base_url('dashboard_vltr/request_detail/'.$requestrw->request_id) ?>">
-								<?= $requestrw->request_id; ?>
-							</a>
-						</td>
-						<td>
-							<?php 
-								if ($requestrw->status == 'Pending'){
-									echo 'NEW';
-								}else{
-									echo $requestrw->status;
-								}	
+							<?php
+								$date1 = new DateTime($offerrw->birthDate);
+								$date2 = new DateTime(Date('Y-m-d'));
+								$interval = $date1->diff($date2);
+								echo $interval->y 
 							?>
+							
 						</td>
-						<td><?= $requestrw->date; ?></th>
-						<td><?= $requestrw->description; ?></td>
-						<td><?= $requestrw->schoolName; ?></td>
-						<td><?= $requestrw->city; ?></td>					
+					</tr>
+					<tr>
+						<th scope="col" class="table-secondary">Occupation</th>
+						<td><?= $offerrw->occupation; ?></td>
+					</tr>
+					<tr>
+						<th scope="col" class="table-secondary">Remarks</th>
+						<td><?= $offerrw->remarks; ?></td>
 					</tr>
 					<?php endforeach; ?>
+					<?php
+						if ($offerrw->status == 'Finish' or $offerrw->status == 'Closed'){
+							echo '';
+						}else{
+					?>
+					<tr>
+						<td colspan="2">
+							<form method="post" action="<?= base_url('school/accepted_offer')?>" accept-charset="utf-8">
+								<input value="<?= $offerrw->offer_id; ?>" name="offer_id" hidden>
+								<input value="<?= $offerrw->request_id; ?>" name="request_id" hidden>
+								<div class="d-grid gap-2 col-2 mx-auto pt-5">
+									<button type="submit" class="btn btn-primary">Accepted</button>
+								</div>
+							</form>
+						</td>
+					</tr>
+					<?php } ?>
 				</tbody>
 			</table>
 		</div>

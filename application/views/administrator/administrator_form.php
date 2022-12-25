@@ -34,7 +34,7 @@
 								<label class="form-label">Name Of School</label>
 								<?= form_error('schoolID', '<div class="text-danger small ml-3 p-1">', '</div>') ?>
 								<select class="form-select" id="inputGroupSelect01" name="schoolID">
-								<option>-Pilih Nama Sekolah-</option>
+								<option value="">-Pilih Nama Sekolah-</option>
 								<?php 
 										$data['school'] = $this->school_model->tampil_data('schools')->result();
 										foreach($data['school'] as $rwschool)

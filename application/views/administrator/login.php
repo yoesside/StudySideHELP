@@ -26,6 +26,7 @@
 			</div>
 			<div class="col pt-5 px-5">
 				<h2>Welcome to Study Side HELP</h2>
+				<?= $this->session->flashdata('pesan'); ?>
 				<form class="pb-4 pt-5" method="post" action="<?= base_url('auth/proses_login')?>" accept-charset="utf-8">
 					<div class="mb-3">
 						<label class="form-label">Username</label>
@@ -50,12 +51,10 @@
 
 				<div class="position-relative mt-5">
 					<div class="position-absolute top-0 start-0 text-primary">
-						<a href="<?= base_url('volunteer')?>">
-							Register as Volunteer?
-						</a>
+						Register as Volunteer?
 					</div>
 					<div class="position-absolute top-0 end-0">
-						<a href="<?= base_url('dashboard') ?>" type="button" class="btn btn-outline-primary rounded-pill">Sign Up</a>
+						<a href="<?= base_url('volunteer')?>" type="button" class="btn btn-outline-primary rounded-pill">Sign Up</a>
 					</div>
 				</div>
 

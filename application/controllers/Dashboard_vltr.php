@@ -48,8 +48,24 @@ class Dashboard_vltr extends CI_Controller{
     $data['request'] =  $this->request_model->tampil_data_city()->result();
     $this->load->view('volunteer/view_request_tbl_city', $data);
   }
+
   public function view_request_tbl_date(){
     $data['request'] =  $this->request_model->tampil_data_date()->result();
     $this->load->view('volunteer/view_request_tbl_date', $data);
+  }
+  
+  public function request_detail($id){
+    $where = array('request.request_id' => $id);
+    $data['request'] =  $this->request_model->get_by_id($where)->result();
+    $this->load->view('volunteer/view_request_detail', $data);
+  }
+
+  public function submit_offers(){
+    $userID = $this->session->userdata('userID'); 
+    $where = 'user.userID ='.'"'.$userID.'"';
+    $data['adm'] =  $this->user_model->getUserVolunteer($where)->result();
+
+    $data['request'] =  $this->request_model->get_request_id()->result();
+    $this->load->view('volunteer/submit_offers_form', $data);
   }
 }

@@ -45,4 +45,29 @@ class Dashboard_adm extends CI_Controller{
     
     $this->load->view('administrator/submit_request',$data);
   }
+
+  public function riview_offers(){
+    $userID = $this->session->userdata('userID'); 
+    $where = 'user.userID ='.'"'.$userID.'"';
+    $data['adm'] =  $this->user_model->getUserAdministrator($where)->result();
+    foreach($data['adm'] as $rowadm){
+      $staffID = $rowadm->staffID ;
+    }
+    $where1 = 'request.staffID ='.'"'.$staffID.'"';
+    $data['request'] =  $this->request_model->tampil_data_byId($where1)->result();
+    $this->load->view('administrator/view_request', $data);
+  }
+
+  public function offers_detail($id){
+    $where = array('request.request_id' => $id);
+    $data['request'] =  $this->request_model->get_by_id($where)->result();
+    $data['offers'] =  $this->request_model->tampil_data_offers($where)->result();
+    $this->load->view('administrator/view_request_detail', $data);
+  }
+
+  public function offer_approval($id){
+    $where = array('offer.offer_id' => $id);
+    $data['offers'] =  $this->request_model->tampil_approval($where)->result();
+    $this->load->view('administrator/offer_approval', $data);
+  }
 }

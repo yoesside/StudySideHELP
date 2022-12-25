@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 27 Nov 2022 pada 15.09
+-- Waktu pembuatan: 14 Des 2022 pada 23.25
 -- Versi server: 10.4.13-MariaDB
 -- Versi PHP: 7.4.7
 
@@ -68,6 +68,31 @@ INSERT INTO `administrator` (`id_administrator`, `staffID`, `schoolID`, `name`, 
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `offer`
+--
+
+CREATE TABLE `offer` (
+  `offer_id` int(11) NOT NULL,
+  `request_id` int(11) NOT NULL,
+  `offerDate` date NOT NULL,
+  `remarks` longtext NOT NULL,
+  `offerStatus` varchar(50) NOT NULL,
+  `id_volunteer` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `offer`
+--
+
+INSERT INTO `offer` (`offer_id`, `request_id`, `offerDate`, `remarks`, `offerStatus`, `id_volunteer`) VALUES
+(1, 1, '2022-12-14', 'I would like to donate PC for tutorial', 'Finish', 1),
+(2, 1, '2022-12-14', 'I would like to donate the PC', 'Pending', 2),
+(3, 2, '2022-12-14', 'I will donate all', 'Pending', 1),
+(4, 2, '2022-12-14', 'I will donate the PC', 'Finish', 2);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `request`
 --
 
@@ -82,7 +107,7 @@ CREATE TABLE `request` (
   `mobileDevice` int(5) NOT NULL,
   `network` int(5) NOT NULL,
   `staffID` int(11) NOT NULL,
-  `status` varchar(10) NOT NULL
+  `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -90,7 +115,10 @@ CREATE TABLE `request` (
 --
 
 INSERT INTO `request` (`request_id`, `description`, `date`, `time`, `studentLevel`, `numStudents`, `pc`, `mobileDevice`, `network`, `staffID`, `status`) VALUES
-(1, 'Biologi Sistem Mutualisme', '2022-11-30', '09:37:00', '11 IPA', 26, 3, 0, 0, 3, 'Pending');
+(1, 'Biologi Sistem Mutualisme', '2022-11-30', '09:37:00', '11 IPA', 26, 3, 0, 0, 3, 'Closed'),
+(2, 'Computer Of Science', '2022-12-22', '10:00:00', '12 IPA', 20, 3, 1, 1, 3, 'Closed'),
+(3, 'Technology Information', '2022-12-30', '09:30:00', '10 IPA', 23, 4, 1, 2, 2, 'Pending'),
+(5, 'Computer Lesson', '2022-12-31', '10:00:00', '7 SMP', 20, 5, 0, 0, 3, 'Pending');
 
 -- --------------------------------------------------------
 
@@ -136,7 +164,8 @@ INSERT INTO `user` (`userID`, `userNumID`, `username`, `password`, `level`) VALU
 (2, 1, 'yosa', '1234567', 'administrator'),
 (3, 2, 'korne', 'korne77', 'administrator'),
 (4, 3, 'avram', '12345', 'administrator'),
-(5, 0, 'cledwin', '123456', 'volunteer');
+(5, 0, 'cledwin', '123456', 'volunteer'),
+(6, 0, 'john', '12345', 'volunteer');
 
 -- --------------------------------------------------------
 
@@ -159,7 +188,8 @@ CREATE TABLE `volunteer` (
 --
 
 INSERT INTO `volunteer` (`id_volunteer`, `username`, `name`, `email`, `phone`, `occupation`, `birthDate`) VALUES
-(1, 'cledwin', 'Cledwin Pandanga', 'cledwin@gmail.com', '082233332924', 'Doctor', '1999-01-22');
+(1, 'cledwin', 'Cledwin Pandanga', 'cledwin@gmail.com', '082233332924', 'Doctor', '1999-01-22'),
+(2, 'john', 'Yohanan', 'yohanan@gmail.com', '082111132924', 'CEO', '1993-04-15');
 
 --
 -- Indexes for dumped tables
@@ -177,6 +207,12 @@ ALTER TABLE `admin`
 ALTER TABLE `administrator`
   ADD PRIMARY KEY (`id_administrator`),
   ADD UNIQUE KEY `staffID` (`staffID`);
+
+--
+-- Indeks untuk tabel `offer`
+--
+ALTER TABLE `offer`
+  ADD PRIMARY KEY (`offer_id`);
 
 --
 -- Indeks untuk tabel `request`
@@ -221,10 +257,16 @@ ALTER TABLE `administrator`
   MODIFY `id_administrator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT untuk tabel `offer`
+--
+ALTER TABLE `offer`
+  MODIFY `offer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT untuk tabel `request`
 --
 ALTER TABLE `request`
-  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `schools`
@@ -236,13 +278,13 @@ ALTER TABLE `schools`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `volunteer`
 --
 ALTER TABLE `volunteer`
-  MODIFY `id_volunteer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_volunteer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

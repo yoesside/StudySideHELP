@@ -51,8 +51,8 @@
 						</a>
 					</li>
 					<li class="nav-item pe-4">
-						<a class="nav-link text-dark" href="<?= base_url('dashboard_adm/submit_request') ?>">
-							<i class="fa fa-calendar-check-o fa-lg text-info" aria-hidden="true"></i> View Requests
+						<a class="nav-link text-dark" href="<?= base_url('dashboard_adm/riview_offers') ?>">
+							<i class="fa fa-calendar-check-o fa-lg text-info" aria-hidden="true"></i> Review Offers
 						</a>
 					</li>
 				</ul>
@@ -61,6 +61,7 @@
 	</nav>
 	<div class="container-fluid bg-info bg-opacity-10 h-100 pb-5">
 		<div class="container px-5 w-50 pt-3">
+			<?= $this->session->flashdata('pesan'); ?>
 			<?php foreach($adm as $rowadm): ?>
 				<form method="post" action="<?= base_url('users/update_administrator_aksi')?>" accept-charset="utf-8">
 					<input type="text" name="userID" class="form-control" value="<?= $rowadm->userID; ?>"  hidden>

@@ -51,8 +51,8 @@
 						</a>
 					</li>
 					<li class="nav-item pe-4">
-						<a class="nav-link text-dark" href="<?= base_url('dashboard_adm/submit_request') ?>">
-							<i class="fa fa-calendar-check-o fa-lg text-info" aria-hidden="true"></i> View Requests
+						<a class="nav-link text-dark" href="<?= base_url('dashboard_adm/riview_offers') ?>">
+							<i class="fa fa-calendar-check-o fa-lg text-info" aria-hidden="true"></i> Review Offers
 						</a>
 					</li>
 				</ul>
